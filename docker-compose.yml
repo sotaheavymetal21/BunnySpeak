@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  bunnyspeak:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: bunnyspeak
+    container_name: bunnyspeak-service
+    entrypoint: ["./bunnyspeak"]
+    # コマンドはコンテナ起動時に引数として渡します 
