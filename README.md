@@ -12,6 +12,7 @@ BunnySpeakは以下の技術を使用して構築されています：
 - **コンテナ化**: [Docker](https://www.docker.com/) - 環境に依存しない実行環境
 - **設計パターン**: Clean Architecture原則に基づく分離された責務
 - **テスト**: Go標準テストライブラリ
+- **ビルド自動化**: Make - 簡単なコマンド実行とビルド処理の自動化
 
 ## 📋 プロジェクト構造
 
@@ -24,6 +25,7 @@ bunnyspeak/
 │   └── translator/       # テキスト変換ロジック
 ├── main.go               # アプリケーションのエントリーポイント
 ├── Dockerfile            # Dockerコンテナ定義
+├── Makefile              # ビルドと実行の自動化
 ├── go.mod                # Go依存関係定義
 └── README.md             # プロジェクトドキュメント
 ```
@@ -94,24 +96,21 @@ cd bunnyspeak
 # 依存関係のインストール
 go mod download
 
-# ビルド
-go build -o bunnyspeak
+# Makefileを使用してビルド
+make build
 
-# 実行可能ファイルを/usr/local/binに移動（オプション）
-sudo mv bunnyspeak /usr/local/bin/
+# Makefileを使用してインストール（~/bin にインストール）
+make install
 ```
 
 ### 🐳 Dockerを使用する場合
 
 ```bash
-# イメージのビルド
-docker build -t bunnyspeak .
+# Makefileを使用してDockerイメージのビルド
+make docker-build
 
-# 実行
-docker run bunnyspeak convert "Hello, world!" --mode=formal
-
-# エイリアスの設定（オプション、より簡単に使用するため）
-alias bunnyspeak='docker run bunnyspeak'
+# Makefileを使用してDockerでコマンドを実行
+make docker-run TEXT="Hello, world!" MODE=formal
 ```
 
 ## 📝 使用方法
@@ -121,6 +120,38 @@ alias bunnyspeak='docker run bunnyspeak'
 ```bash
 bunnyspeak convert "変換したいテキスト" [--mode=モード]
 ```
+
+### Make を使った簡単な実行方法
+
+Makefileを使用すると、より簡単に各モードを実行できます：
+
+```bash
+# フォーマルモードで変換
+make formal TEXT="こんにちは世界"
+
+# サイケデリックモードで変換
+make psychedelic TEXT="Hello World"
+
+# コズミック・アブサードモードで変換
+make cosmic TEXT="宇宙の果てから"
+
+# デジタル崩壊モードで変換
+make digital TEXT="システムエラー"
+
+# デスサーキュラーモードで変換
+make death TEXT="深淵を覗く時"
+
+# ファイルの内容を変換
+make file-convert FILE=input.txt MODE=cosmic
+
+# すべてのモードで同じテキストを変換
+make all-modes TEXT="全モードでテスト"
+
+# ヘルプの表示
+make help
+```
+
+TEXTパラメータを省略すると、対話的にテキストを入力するようプロンプトが表示されます。
 
 ### コマンドラインオプション
 
@@ -192,6 +223,7 @@ BunnySpeakは以下の設計原則に基づいて構築されています：
 - **拡張性**: 新しい変換モードやロジックの追加が容易
 - **メンテナンス性**: 読みやすく、ドキュメント化されたコード
 - **テスト可能性**: 独立したコンポーネントによるユニットテストの容易さ
+- **使いやすさ**: Makefileによる簡単なコマンド実行
 
 ### 将来の拡張可能性
 
@@ -206,6 +238,7 @@ BunnySpeakは以下の設計原則に基づいて構築されています：
 
 - Go 1.20以上
 - 基本的なGoの開発環境
+- Make（Makefileを使用する場合）
 
 ### 開発環境のセットアップ
 
@@ -258,13 +291,16 @@ BunnySpeakは現在アクティブに開発中です。現在の優先事項は�
 ## 📚 トラブルシューティング
 
 **Q: インストール後にコマンドが見つからない**  
-A: PATHに実行可能ファイルのディレクトリが含まれているか確認してください。
+A: PATHに実行可能ファイルのディレクトリが含まれているか確認してください。`make install`を使った場合は、`~/bin`がPATHに含まれていることを確認してください。
 
 **Q: Docker実行時にコマンドが失敗する**  
-A: 引数内に特殊文字がある場合は、シングルクォート（`'`）で囲んでください。例：`docker run bunnyspeak convert 'Hello, world!'`
+A: 引数内に特殊文字がある場合は、シングルクォート（`'`）で囲んでください。例：`make docker-run TEXT='Hello, world!'`
 
 **Q: 変換結果が期待通りでない**  
 A: サイケデリックモードやその他の高度なモードにはランダム要素が含まれるため、実行ごとに結果が異なります。これは設計通りの動作です。
+
+**Q: Makeコマンドが動作しない**  
+A: Makeがインストールされていることを確認してください。多くのUNIX系システムでは標準でインストールされています。Windowsの場合は、WSLやMinGWなどでMakeを使用できます。
 
 ## 👏 謝辞
 
