@@ -78,31 +78,6 @@ BunnySpeakは以下の5つの洗練された翻訳モードを提供します：
 
 ## 📥 インストール方法
 
-### 🔄 Goを使用してのインストール（推奨）
-
-```bash
-go install github.com/user/bunnyspeak@latest
-```
-
-### 🛠️ ソースからのビルド
-
-```bash
-# リポジトリのクローン
-git clone https://github.com/user/bunnyspeak.git
-
-# プロジェクトディレクトリに移動
-cd bunnyspeak
-
-# 依存関係のインストール
-go mod download
-
-# Makefileを使用してビルド
-make build
-
-# Makefileを使用してインストール（~/bin にインストール）
-make install
-```
-
 ### 🐳 Dockerを使用する場合
 
 ```bash
@@ -256,51 +231,6 @@ go mod download
 go install github.com/cosmtrek/air@latest
 air
 ```
-
-### コントリビューションガイドライン
-
-1. このリポジトリをフォークする
-2. 機能ブランチを作成する (`git checkout -b feature/amazing-feature`)
-3. 変更をコミットする (`git commit -m 'Add some amazing feature'`)
-4. ブランチをプッシュする (`git push origin feature/amazing-feature`)
-5. プルリクエストを作成する
-
-## 📄 ライセンス
-
-MIT License - 詳細は[LICENSE](LICENSE)ファイルを参照してください。
-
-## 🤝 コントリビューション
-
-コントリビューションを歓迎します！以下の方法で貢献できます：
-
-- バグレポートの提出
-- 新機能のリクエスト
-- コードの改善とプルリクエスト
-- ドキュメントの改善
-- 使用例の共有
-
-## 📊 プロジェクト状況
-
-BunnySpeakは現在アクティブに開発中です。現在の優先事項は：
-
-- テストカバレッジの向上
-- パフォーマンスの最適化
-- より多様な変換アルゴリズムの実装
-- コミュニティフィードバックの収集と実装
-
-## 📚 トラブルシューティング
-
-**Q: インストール後にコマンドが見つからない**  
-A: PATHに実行可能ファイルのディレクトリが含まれているか確認してください。`make install`を使った場合は、`~/bin`がPATHに含まれていることを確認してください。
-
-**Q: Docker実行時にコマンドが失敗する**  
-A: 引数内に特殊文字がある場合は、シングルクォート（`'`）で囲んでください。例：`make docker-run TEXT='Hello, world!'`
-
-**Q: 変換結果が期待通りでない**  
-A: サイケデリックモードやその他の高度なモードにはランダム要素が含まれるため、実行ごとに結果が異なります。これは設計通りの動作です。
-
-**Q: Makeコマンドが動作しない**  
-A: Makeがインストールされていることを確認してください。多くのUNIX系システムでは標準でインストールされています。Windowsの場合は、WSLやMinGWなどでMakeを使用できます。
 
 ## 👏 謝辞
 
