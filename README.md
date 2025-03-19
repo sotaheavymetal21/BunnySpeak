@@ -107,20 +107,46 @@ bunnyspeak convert "変換したいテキスト" [--mode=モード]
 Makefileを使用すると、より簡単に各モードを実行できます：
 
 ```bash
-# フォーマルモードで変換
-make formal TEXT="こんにちは世界"
+# ビルドとインストール
+make build             # BunnySpeakをビルドします
+make install           # BunnySpeakをビルドしてインストールします
+make clean             # ビルドファイルを削除します
 
-# サイケデリックモードで変換
+# 各モードでテキスト変換
+make formal            # フォーマルバニーモードでテキスト変換（対話的に入力）
+make psychedelic       # サイケデリックバニーモードでテキスト変換（対話的に入力）
+make cosmic            # コズミック・アブサードモードでテキスト変換（対話的に入力）
+make digital           # デジタル崩壊モードでテキスト変換（対話的に入力）
+make death             # デスサーキュラーモードでテキスト変換（対話的に入力）
+
+# テキストを直接指定する場合
+make formal TEXT="こんにちは世界"   # TEXTパラメータでテキストを直接指定
+
+# ファイル変換
+make file-convert FILE=path/to/file [MODE=モード名] # ファイルの内容を変換
+
+# Docker関連
+make docker-build      # Dockerイメージをビルド
+make docker-run        # Dockerでコマンド実行（対話的に入力）
+make docker-run TEXT="文字列" [MODE=モード名] # Dockerでテキストを直接指定して実行
+
+# その他
+make all-modes         # すべてのモードでテキスト変換（対話的に入力）
+make all-modes TEXT="文字列" # すべてのモードで同じテキストを変換
+make help              # ヘルプを表示
+```
+
+各モードのコマンド（`make formal`など）を単独で実行すると、対話的にテキストの入力を促すプロンプトが表示されます。テキストを直接指定したい場合は、`TEXT="文字列"`パラメータを追加します。
+
+### 使用例
+
+```bash
+# 対話的に入力する場合
+make formal
+# → 「テキストを入力してください: 」というプロンプトが表示される
+
+# テキストを直接指定する場合
 make psychedelic TEXT="Hello World"
-
-# コズミック・アブサードモードで変換
-make cosmic TEXT="宇宙の果てから"
-
-# デジタル崩壊モードで変換
-make digital TEXT="システムエラー"
-
-# デスサーキュラーモードで変換
-make death TEXT="深淵を覗く時"
 
 # ファイルの内容を変換
 make file-convert FILE=input.txt MODE=cosmic
@@ -128,11 +154,9 @@ make file-convert FILE=input.txt MODE=cosmic
 # すべてのモードで同じテキストを変換
 make all-modes TEXT="全モードでテスト"
 
-# ヘルプの表示
-make help
+# パイプを使った使用例
+cat input.txt | xargs -I {} make formal TEXT="{}"
 ```
-
-TEXTパラメータを省略すると、対話的にテキストを入力するようプロンプトが表示されます。
 
 ### コマンドラインオプション
 
@@ -140,61 +164,6 @@ TEXTパラメータを省略すると、対話的にテキストを入力する�
 |------------|-------|------------|------|
 | `--mode`   | `-m`  | `formal`   | 変換モード（`formal`/`psychedelic`/`cosmic_absurd`/`digital_decay`/`death_circular`） |
 | `--help`   | `-h`  | -          | ヘルプメッセージを表示 |
-
-### 使用例
-
-#### フォーマルバニーモード（デフォルト）
-
-```bash
-$ bunnyspeak convert "Hello, how are you?"
-Hello, how are you ぴょん?
-
-$ bunnyspeak convert "こんにちは、元気ですか？"
-こんにちは、元気ですか？ですぴょん
-```
-
-#### サイケデリックバニーモード
-
-```bash
-$ bunnyspeak convert "This is a test" --mode=psychedelic
-This is a *ぴょんぴょんぴょん!!!* テテt-test *うさみみぴょこん!* ぴょーん！！
-
-$ bunnyspeak convert "これはテストです" --mode=psychedelic
-これは *もぐもぐ草* テストです *ぴょんきち!* ホッピョ〜ン!
-```
-
-#### コズミック・アブサードモード
-
-```bash
-$ bunnyspeak convert "Welcome to my world" --mode=cosmic_absurd
-【無限螺旋の彼方】 Welcome [第11次元の残響] to my 《量子確率波の収束》 world 【無限角形体】 《意識の底なし穴》 ...【存在が揺らぐ】
-
-$ bunnyspeak convert "これは現実です" --mode=cosmic_absurd
-『多元宇宙の交差点』 これは 【非線形時間軸】 現実です 《シュレディンガーの逆説》 【自己交差四次元】 《存在の確率は0.0001%》 【理性の彼方へ】
-```
-
-#### デジタル崩壊モード
-
-```bash
-$ bunnyspeak convert "System is operational" --mode=digital_decay
-▄▄▄▄▄▄▄
-█ ERR █
-▀▀▀▀▀▀▀
-[システム起動エラー] Sy█tem #5AC83D is oper░tional <SYSTEM CORRUPTION DETECTED> [DEBUG: stack trace 0x8A72F] [プロセス強制終了]
-
-$ bunnyspeak convert "起動しました" --mode=digital_decay
-[システム起動エラー] 起動し¢ました 0xDE4F7 [ERROR CODE: 0xC000005] <コアダンプ発生>
-```
-
-#### デスサーキュラーモード
-
-```bash
-$ bunnyspeak convert "The door is open" --mode=death_circular
-『深海に眠りし恐怖』 【封印された知識】 The 「Hastur」 door 『禁忌の呪文詠唱中』 is open 《脳内を蝕む何か》 狂気の果てに Ph'nglui mglw'nafh...
-
-$ bunnyspeak convert "新しい朝が来た" --mode=death_circular
-【深淵よりの招喚】 《失われた古文書の一節》 新しい 「Nyarlathotep」 朝が来た 【永遠の絶叫】 理性の彼方から 《理性の崩壊》
-```
 
 ## 🧩 拡張性と設計思想
 
