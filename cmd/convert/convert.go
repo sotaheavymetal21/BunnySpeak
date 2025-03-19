@@ -13,9 +13,12 @@ var (
 		Use:   "convert [テキスト]",
 		Short: "テキストをウサギ言葉に変換します",
 		Long: `指定されたテキストをウサギの言葉に変換します。
-2つのモードがあります：
+5つのモードがあります：
 - formal: 丁寧で可愛らしいウサギ言葉（デフォルト）
-- psychedelic: 予測不可能で奇抜なウサギ言葉`,
+- psychedelic: 予測不可能で奇抜なウサギ言葉
+- cosmic_absurd: 宇宙的な狂気に満ちた現実離れした表現
+- digital_decay: コンピュータエラーやグリッチをシミュレートする表現
+- death_circular: クトゥルフ神話風の不気味で理解不能な表現`,
 		Args: cobra.MinimumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
 			// 入力テキストを取得（複数の引数をスペースで結合）
@@ -27,9 +30,16 @@ var (
 			}
 
 			var result string
-			if mode == "psychedelic" {
+			switch mode {
+			case "psychedelic":
 				result = translator.ToPsychedelicBunny(inputText)
-			} else {
+			case "cosmic_absurd":
+				result = translator.ToCosmicAbsurd(inputText)
+			case "digital_decay":
+				result = translator.ToDigitalDecay(inputText)
+			case "death_circular":
+				result = translator.ToDeathCircular(inputText)
+			default:
 				result = translator.ToFormalBunny(inputText)
 			}
 
@@ -39,5 +49,5 @@ var (
 )
 
 func init() {
-	Cmd.Flags().StringVarP(&mode, "mode", "m", "formal", "変換モード (formal/psychedelic)")
+	Cmd.Flags().StringVarP(&mode, "mode", "m", "formal", "変換モード (formal/psychedelic/cosmic_absurd/digital_decay/death_circular)")
 }
